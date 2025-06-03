@@ -11,7 +11,7 @@ export const AppLayout = () => {
           <div className="w-64">
             <Logo />
           </div>
-          <NavMenu/>
+           <NavMenu/>
         </div>
 
       </header>

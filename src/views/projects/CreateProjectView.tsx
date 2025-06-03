@@ -20,8 +20,9 @@ export const CreateProjectView = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
     const {mutate} = useMutation({
         mutationFn: createProject,
-        onError: () => {
-
+        onError: (error) => {
+            toast.error(error.message)
+            // console.log(error.message);
         },
         onSuccess: (data) => {
             toast.success(data)

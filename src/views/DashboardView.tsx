@@ -23,7 +23,7 @@ export const DashboardView = () => {
 
       <nav className="my-5">
         <Link
-          to='/create/project'
+          to='/projects/create'
           className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors">
           Nuevo proyecto
         </Link>
@@ -66,7 +66,7 @@ export const DashboardView = () => {
                         </Link>
                       </Menu.Item>
                       <Menu.Item>
-                        <Link to={``}
+                        <Link to={`/projects/${project._id}/edit`}
                           className='block px-3 py-1 text-sm leading-6 text-gray-900'>
                           Editar Proyecto
                         </Link>
@@ -91,7 +91,7 @@ export const DashboardView = () => {
         (
           <p className="text-center py-20">No hay proyectos aún {''}
             <Link
-              to={'/create/project'}
+              to={'projects/create'}
               className="text-fuchsia-400 font-bold"
             >Crear proyecto</Link>
           </p>

@@ -1,23 +1,53 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { toast } from "react-toastify"
 import ProjectForm from './ProjectForm'
-import type { ProjectFormData } from '@/types/index'
+import { useMutation } from '@tanstack/react-query'
+import type { Project, ProjectFormData } from '@/types/index'
+import { updateProject } from '@/api/ProjectAPI'
 
-export const EditProjectForm = () => {
+type EditProjectFormProps = {
+    data: ProjectFormData
+    projectId: Project['_id']
+}
 
-    const initialValues : ProjectFormData = {
-            projectName: "",
-            clientName: "",
-            description: ""
+export const EditProjectForm = ({ data, projectId }: EditProjectFormProps) => {
+
+    const navigate = useNavigate()
+
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            projectName: data.projectName,
+            clientName: data.clientName,
+            description: data.description
         }
-    
-        const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+    })
 
-        const handleForm = () => {
-
+    const { mutate } = useMutation({
+        mutationKey: [''],
+        mutationFn: updateProject,
+        onError: (error) => {
+            toast.error(error.message)
+            // console.log(error.message);
+        },
+        onSuccess: (data) => {
+            toast.success(data)
+            navigate('/')
         }
+    })
 
-return (
+    const handleForm = (formData: ProjectFormData) => {
+        const data = {
+            formData,
+            projectId
+        }
+        mutate(data)
+    }
+
+
+
+    return (
         <>
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-5xl font-black">Crear proyecto</h1>

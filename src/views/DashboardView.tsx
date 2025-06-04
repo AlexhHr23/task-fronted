@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { getProjects } from "@/api/ProjectAPI"
 
 
 export const DashboardView = () => {
-  return (
+
+  const {data, isLoading} = useQuery({
+    queryKey: ['projects'],
+    queryFn: getProjects
+  })
+
+  if(isLoading) return 'Cargando...'
+
+  if(data) return (
     <>
       <h1 className="text-5xl font-black">Mis proyectos</h1>
       <p className="text-2xl font-light text-gray-500 mt-5">Maneja y administra tus proyectos</p>
@@ -14,6 +24,18 @@ export const DashboardView = () => {
           Nuevo proyecto
       </Link>
       </nav>
+
+      {data.length ? (
+        <p>Si hay proyectos</p>
+      ) : 
+      (
+        <p className="text-center py-20">No hay proyectos aún {''}
+          <Link
+            to={'/create/project'}
+            className="text-fuchsia-400 font-bold"
+          >Crear proyecto</Link>
+        </p>
+      )}
       
     </>
   )

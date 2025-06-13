@@ -4,6 +4,7 @@ import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query';
 import { getTaskById } from '@/api/TaskAPI';
 import { toast } from 'react-toastify';
+import { formatDate } from '@/utils/utils';
 
 
 
@@ -31,7 +32,7 @@ export default function TaskModalDetails() {
     }
     
   
-    return (
+    if(data) return (
         <>
             <Transition appear show={show} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() => navigate(location.pathname, {replace: true})}>
@@ -59,14 +60,14 @@ export default function TaskModalDetails() {
                                 leaveTo="opacity-0 scale-95"
                             >
                                 <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
-                                    <p className='text-sm text-slate-400'>Agregada el: </p>
-                                    <p className='text-sm text-slate-400'>Última actualización: </p>
+                                    <p className='text-sm text-slate-400'>Agregada el: {formatDate(data.createdAt) }</p>
+                                    <p className='text-sm text-slate-400'>Última actualización: {formatDate(data.updatedAt)} </p>
                                     <Dialog.Title
                                         as="h3"
                                         className="font-black text-4xl text-slate-600 my-5"
-                                    >Titulo aquí
+                                    >{data.name}
                                     </Dialog.Title>
-                                    <p className='text-lg text-slate-500 mb-2'>Descripción:</p>
+                                    <p className='text-lg text-slate-500 mb-2'>Descripción: {data.description}</p>
                                     <div className='my-5 space-y-3'>
                                         <label className='font-bold'>Estado Actual:</label>
                                     </div>

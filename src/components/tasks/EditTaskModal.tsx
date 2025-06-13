@@ -1,25 +1,54 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { TaskFormData, Task } from '@/types/index';
 import { useForm } from 'react-hook-form';
 import { TaskForm } from './TaskForm';
+import { updateTask } from '@/api/TaskAPI';
+import { toast } from 'react-toastify';
 
 type EditTaskModalProps = {
   data: Task
+  taskId: Task['_id']
 }
 
-export default function EditTaskModal({data}: EditTaskModalProps) {
+export default function EditTaskModal({data, taskId}: EditTaskModalProps) {
 
     const navigate = useNavigate()
+
+    const params = useParams()
+    const projectId = params.projectId!
+
+    const queryClient = useQueryClient()
 
    const {register, handleSubmit, reset, formState: {errors}} = useForm<TaskFormData>({defaultValues: {
     name: data.name,
     description: data.description
    }})
 
+   const { mutate } = useMutation({
+    mutationFn: updateTask,
+    onError: (error) =>  {
+        toast.error(error.message)
+    },
+    onSuccess: (data) => {
+        queryClient.invalidateQueries({queryKey:['editProject', projectId]})
+        toast.success(data)
+        reset()
+        navigate(location.pathname, {replace: true})
+    }
+   })
+
    const hadleEditTask = (formData: TaskFormData) => {
-    console.log(formData);
+    const data =  {
+        projectId,
+        taskId,
+        formData
+    }
+
+
+    mutate(data)
    }
 
 

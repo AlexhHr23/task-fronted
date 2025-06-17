@@ -6,6 +6,7 @@ import { EditProjectView } from "@/views/projects/EditProjectView";
 import { ProjectDetailsView } from "@/views/projects/ProjectDetailsView";
 import { AuthLayout } from "@/layouts/AuthLayout";
 import { LoginView } from "@/views/auth/LoginVIew";
+import RegisterView from "@/views/auth/RegisterView";
 
 
 export const Router = () => {
@@ -21,6 +22,7 @@ export const Router = () => {
 
                 <Route element={<AuthLayout/>}>
                     <Route path='/auth/login' element={<LoginView/>}/>
+                    <Route path='/auth/register' element={<RegisterView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

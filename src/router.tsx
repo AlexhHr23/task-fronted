@@ -5,7 +5,7 @@ import { CreateProjectView } from "@/views/projects/CreateProjectView";
 import { EditProjectView } from "@/views/projects/EditProjectView";
 import { ProjectDetailsView } from "@/views/projects/ProjectDetailsView";
 import { AuthLayout } from "@/layouts/AuthLayout";
-import { LoginVIew } from "@/views/auth/LoginVIew";
+import { LoginView } from "@/views/auth/LoginVIew";
 
 
 export const Router = () => {
@@ -20,7 +20,7 @@ export const Router = () => {
                 </Route>
 
                 <Route element={<AuthLayout/>}>
-                    <Route path='/auth/login' element={<LoginVIew/>}/>
+                    <Route path='/auth/login' element={<LoginView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

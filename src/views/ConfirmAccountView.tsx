@@ -1,7 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {PinInput, PinInputField} from '@chakra-ui/pin-input'
+import { useState } from "react";
+import type { ConfirmToken } from "../types";
+import { useMutation } from "@tanstack/react-query";
+import { confirmAccount } from "@/api/AuthAPI";
+import { toast } from "react-toastify";
 
 export const  ConfirmAccountView = () =>  {
 
+  const [token, setToken] = useState<ConfirmToken['token']>('')
+
+  const navigate = useNavigate()
+
+  const {mutate, reset} = useMutation({
+    mutationFn: confirmAccount,
+    onError: (error) =>  {
+      toast.error(error.message)
+    },
+    onSuccess: (data) => {
+      toast.success(data)
+      navigate('/auth/login')
+      reset()
+    }
+  })
+
+  const handleChange = (token: ConfirmToken['token']) => {
+    setToken(token)
+  }
+
+  const hadleComplete = (token: ConfirmToken['token']) => mutate({token})
+  
 
   return (
     <>
@@ -16,6 +44,16 @@ export const  ConfirmAccountView = () =>  {
         <label
           className="font-normal text-2xl text-center block"
         >Código de 6 dígitos</label>
+        <div className="flex justify-center gap-5">
+          <PinInput value={token} onChange={handleChange} onComplete={hadleComplete}>
+            <PinInputField className="w-10 h-10 p-3 rounded-lg border-gray-300 border placeholder-white"/>
+            <PinInputField className="w-10 h-10 p-3 rounded-lg border-gray-300 border placeholder-white"/>
+            <PinInputField className="w-10 h-10 p-3 rounded-lg border-gray-300 border placeholder-white"/>
+            <PinInputField className="w-10 h-10 p-3 rounded-lg border-gray-300 border placeholder-white"/>
+            <PinInputField className="w-10 h-10 p-3 rounded-lg border-gray-300 border placeholder-white"/>
+            <PinInputField className="w-10 h-10 p-3 rounded-lg border-gray-300 border placeholder-white"/>
+          </PinInput>
+        </div>
 
       </form>
 

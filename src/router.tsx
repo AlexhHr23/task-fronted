@@ -8,6 +8,7 @@ import { ProjectDetailsView } from "@/views/projects/ProjectDetailsView";
 import { LoginView } from "@/views/auth/LoginVIew";
 import RegisterView from "@/views/auth/RegisterView";
 import { ConfirmAccountView } from "@/views/ConfirmAccountView";
+import { RequestNewCodeView } from "./views/auth/RequestNewCodeView";
 
 
 export const Router = () => {
@@ -25,6 +26,7 @@ export const Router = () => {
                     <Route path='/auth/login' element={<LoginView/>}/>
                     <Route path='/auth/register' element={<RegisterView/>}/>
                     <Route path='/auth/confirm-account' element={<ConfirmAccountView/>}/>
+                    <Route path='/auth/request-code' element={<RequestNewCodeView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -4,6 +4,7 @@ import { z } from "zod";
 /**Auth users */
 
 const authSchema = z.object({
+    _id: z.string(),
     name: z.string(),
     email: z.string().email(),
     password: z.string(),

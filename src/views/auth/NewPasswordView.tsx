@@ -18,7 +18,7 @@ export const NewPasswordView = () => {
 
       {!isValidToken ? 
         <NewPasswordToken token={token} setToken={setToken} setIsValidToken={setIsValidToken}/> : 
-        <NewPasswordForm/>}
+        <NewPasswordForm token={token}/>}
     </>
   )
 }

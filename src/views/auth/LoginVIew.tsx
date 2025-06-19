@@ -20,7 +20,7 @@ export const LoginView = () => {
       toast.error(error.message)
     },
     onSuccess: (data) => {
-      toast.success(data)
+      toast.success('Iniciando sesión...')
     }
   })
 

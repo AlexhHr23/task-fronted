@@ -7,9 +7,10 @@ import { toast } from "react-toastify";
 
 type SearchResultProps = {
     user: TeamMember
+    reset: () => void
 }
 
-export const SearchResult = ({user}: SearchResultProps) => {
+export const SearchResult = ({user, reset}: SearchResultProps) => {
 
     const params = useParams()
     const projectId = params.projectId!
@@ -21,6 +22,7 @@ export const SearchResult = ({user}: SearchResultProps) => {
         },
         onSuccess: (data) => {
             toast.success(data)
+            reset()
         }
     })
 

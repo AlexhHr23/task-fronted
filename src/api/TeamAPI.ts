@@ -22,7 +22,6 @@ export const addUserToProject = async({projectId, id}: {projectId: Project['_id'
     try {
         const url = `/projects/${projectId}/team`
         const {data} = await api.post(url, {id})
-        console.log(data);
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){

@@ -94,7 +94,7 @@ export const DashboardView = () => {
                           Ver Proyecto
                         </Link>
                       </Menu.Item>
-                      {project.manager === user._id && (
+                      {isManager(project.manager, user._id) && (
                         <>
                           <Menu.Item>
                             <Link to={`/projects/${project._id}/edit`}

@@ -21,7 +21,7 @@ export const findUserById = async({projectId, formData}: {projectId: Project['_i
 export const addUserToProject = async({projectId, id}: {projectId: Project['_id'], id: TeamMember['_id']}) =>  {
     try {
         const url = `/projects/${projectId}/team`
-        const {data} = await api.post(url, {id})
+        const {data} = await api.post<string>(url, {id})
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){
@@ -46,3 +46,17 @@ export const getProjectTeam = async(projectId: Project['_id']) =>  {
         }
     }
 }
+
+
+export const removeUserFromProject = async({projectId, userId}: {projectId: Project['_id'], userId: TeamMember['_id']}) =>  {
+    try {
+        const url = `/projects/${projectId}/team/${userId}`
+        const {data} = await api.delete<string>(url)
+        return data
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+}
+

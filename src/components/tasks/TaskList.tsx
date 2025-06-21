@@ -5,7 +5,8 @@ import { statusTranslations } from "@/locales/es"
 
 
 type taskListProps = {
-  tasks: Task[]
+  tasks: Task[],
+  canEdit: boolean
 }
 
 type GroupedTask = {
@@ -31,7 +32,7 @@ const statusStyles  : {[key: string] : string} = {
 }
 
 
-export const TaskList = ({ tasks }: taskListProps) => {
+export const TaskList = ({ tasks, canEdit }: taskListProps) => {
 
   const groupedTasks = tasks.reduce((acc, task) => {
     let currentGroup = acc[task.status] ? [...acc[task.status]] : [];
@@ -54,7 +55,7 @@ export const TaskList = ({ tasks }: taskListProps) => {
               {tasks.length === 0 ? (
                 <li className="text-gray-500 text-center pt-3">No Hay tareas</li>
               ) : (
-                tasks.map(task => <TaskCard key={task._id} task={task} />)
+                tasks.map(task => <TaskCard key={task._id} task={task} canEdit={canEdit} />)
               )}
             </ul>
           </div>

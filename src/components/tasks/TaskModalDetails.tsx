@@ -30,26 +30,28 @@ export default function TaskModalDetails() {
         retry: false
     })
 
+    console.log('data', data);
 
-    const {mutate} = useMutation({
+
+    const { mutate } = useMutation({
         mutationFn: updateStatusTask,
         onError: (error) => {
             toast.error(error.message)
         },
-        onSuccess: (data) =>  {
+        onSuccess: (data) => {
             toast.success(data)
-            queryClient.invalidateQueries({queryKey: ['project', projectId]})
-            queryClient.invalidateQueries({queryKey: ['task', taskId]})
-            navigate(location.pathname, {replace: true})
+            queryClient.invalidateQueries({ queryKey: ['project', projectId] })
+            queryClient.invalidateQueries({ queryKey: ['task', taskId] })
+            navigate(location.pathname, { replace: true })
 
         }
     })
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) =>  {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const status = e.target.value as TaskStaus
-        
+
         const data = {
-            projectId, 
+            projectId,
             taskId,
             status
         }
@@ -99,6 +101,19 @@ export default function TaskModalDetails() {
                                     >{data.name}
                                     </Dialog.Title>
                                     <p className='text-lg text-slate-500 mb-2'>Descripción: {data.description}</p>
+
+                                    {data.completedBy && typeof data.completedBy === 'object' && 'name' in data.completedBy && (
+                                        <p>
+                                            <span className='font-bold text-slate-600'>Estado actualizado por:</span> {data.completedBy.name}
+                                        </p>
+                                    )}
+
+                                    {typeof data.completedBy === 'string' && (
+                                        <p>
+                                            <span className='font-bold text-slate-600'>Estado actualizado por (id):</span> {data.completedBy}
+                                        </p>
+                                    )}
+
                                     <div className='my-5 space-y-3'>
                                         <label className='font-bold'>Estado Actual:</label>
                                         <select

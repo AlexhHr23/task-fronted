@@ -45,6 +45,7 @@ export const taskSchema = z.object({
     name: z.string(),
     description: z.string(),
     status: taskStatusSchema,
+    completedBy: userSchema.or(z.string()).or(z.null()),
     createdAt: z.string(),
     updatedAt: z.string()
 })

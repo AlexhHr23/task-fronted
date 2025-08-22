@@ -41,14 +41,25 @@ export const taskStatusSchema = z.enum(["underReview", "pending", "onHold", "inP
 export type TaskStaus = z.infer<typeof taskStatusSchema>
 
 export const taskSchema = z.object({
-    _id: z.string(),
-    name: z.string(),
-    description: z.string(),
-    status: taskStatusSchema,
-    completedBy: userSchema.or(z.string()).or(z.null()),
-    createdAt: z.string(),
-    updatedAt: z.string()
-})
+  _id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  status: taskStatusSchema,
+  completedBy: z.array(
+    z.object({
+      user: z.union([z.string(), userSchema]).transform((val) =>
+        typeof val === 'string'
+          ? { _id: val, name: 'Usuario desconocido', email: '' }
+          : val
+      ),
+      status: taskStatusSchema,
+      _id: z.string(),
+    })
+  ),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 
 export type Task = z.infer<typeof taskSchema>
 export type TaskFormData = Pick<Task, 'name' | 'description'>

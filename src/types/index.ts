@@ -68,15 +68,21 @@ export const taskSchema = z.object({
       _id: z.string(),
     })
   ),
-  notes: z.union([
-    z.array(
+  notes: z.array(
+    z.union([
+      z.string().transform((id) => ({
+        _id: id,
+        content: "",
+        createdBy: { _id: "", name: "Desconocido", email: "" },
+        task: "",
+        createdAt: "",
+        updatedAt: "",
+      })),
       noteSchema.extend({
         createdBy: userSchema,
-      })
-    ),
-    // array de strings
-    z.array(z.string()),
-  ]),
+      }),
+    ])
+  ),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

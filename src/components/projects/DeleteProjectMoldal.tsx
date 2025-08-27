@@ -2,14 +2,15 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import {ErrorMessage} from "../ErrorMessage";
-import type { checkPasswordForm } from '@/types/index';
-import { useMutation } from '@tanstack/react-query';
+import { ErrorMessage } from "../ErrorMessage";
+import type { CheckPasswordForm } from '@/types/index';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { checkPassword } from '@/api/AuthAPI';
 import { toast } from 'react-toastify';
+import { deleteProject } from '@/api/ProjectAPI';
 
 export default function DeleteProjectModal() {
-    const initialValues : checkPasswordForm = {
+    const initialValues: CheckPasswordForm = {
         password: ''
     }
     const location = useLocation()
@@ -18,22 +19,33 @@ export default function DeleteProjectModal() {
     const queryParams = new URLSearchParams(location.search);
     const deleteProjectId = queryParams.get('deleteProject')!;
     const show = deleteProjectId ? true : false
+    
+    const queryClient = useQueryClient()
 
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
-    const checkUserUserPasswordMutation = useMutation({
+    const checkUserPasswordMutation = useMutation({
         mutationFn: checkPassword,
-        onError: (error) =>  {
+        onError: (error) => {
+            toast.error(error.message)
+        },
+    })
+
+    const deleteProjectMutation = useMutation({
+        mutationFn: deleteProject,
+        onError: (error) => {
             toast.error(error.message)
         },
         onSuccess: (data) => {
             toast.success(data)
+            queryClient.invalidateQueries({ queryKey: ['projects'] })
+            navigate(location.pathname, {replace:true})
         }
     })
 
-    const handleForm = async (formData : checkPasswordForm) => {
-        checkUserUserPasswordMutation.mutateAsync(formData)
-        console.log('Despues de la mutacion')
+    const handleForm = async (formData: CheckPasswordForm) => {
+        await checkUserPasswordMutation.mutateAsync(formData)
+        await deleteProjectMutation.mutateAsync(deleteProjectId)
     }
 
 

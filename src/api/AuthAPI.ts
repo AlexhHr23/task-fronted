@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
-import { userSchema, type ConfirmToken, type ForgotPasswordForm, type NewPasswordFormData, type RequestConfirmationCodeForm, type UserLoginForm, type UserRegistrationForm } from "../types";
+import { userSchema, type CheckPasswordForm, type ConfirmToken, type ForgotPasswordForm, type NewPasswordFormData, type RequestConfirmationCodeForm, type UserLoginForm, type UserRegistrationForm } from "../types";
 
 export const createAccount = async(formData: UserRegistrationForm) =>  {
     try {
@@ -105,10 +105,10 @@ export const getUser = async() =>  {
     }
 }
 
-export const checkPassword = async() =>  {
+export const checkPassword = async(formData: CheckPasswordForm) =>  {
     try  {
         const url = '/auth/check-password'
-        const {data} = await api.post<string>(url)
+        const {data} = await api.post<string>(url, formData)
         return data
     }catch (error) {
          if(isAxiosError(error) && error.response) {

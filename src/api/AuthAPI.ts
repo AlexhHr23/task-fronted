@@ -104,3 +104,15 @@ export const getUser = async() =>  {
         }
     }
 }
+
+export const checkPassword = async() =>  {
+    try  {
+        const url = '/auth/check-password'
+        const {data} = await api.post<string>(url)
+        return data
+    }catch (error) {
+         if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error)
+        }
+    }
+}

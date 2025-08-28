@@ -1,17 +1,15 @@
 import { Fragment } from "react/jsx-runtime"
-
 import { useNavigate, useParams } from "react-router-dom"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid"
 import { Menu, Transition } from "@headlessui/react"
-import type { Task } from "@/types/index"
+import type { TaskProject } from "@/types/index"
 import { deleteTask } from "@/api/TaskAPI"
 import { toast } from "react-toastify"
 import {useDraggable} from '@dnd-kit/core'
-import { brotliDecompress } from "zlib"
 
 type TaskCardProps = {
-  task: Task
+  task: TaskProject
   canEdit: boolean
 }
 

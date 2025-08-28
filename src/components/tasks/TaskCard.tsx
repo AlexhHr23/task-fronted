@@ -8,6 +8,7 @@ import type { Task } from "@/types/index"
 import { deleteTask } from "@/api/TaskAPI"
 import { toast } from "react-toastify"
 import {useDraggable} from '@dnd-kit/core'
+import { brotliDecompress } from "zlib"
 
 type TaskCardProps = {
   task: Task
@@ -39,7 +40,13 @@ export const TaskCard = ({ task, canEdit }: TaskCardProps) => {
 
 
   const style = transform ? {
-    transform : `translate3d(${transform.x}px, ${transform.y}px, 0)`
+    transform : `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    padding: "1.25rem",
+    backgroundColor: '#FFF',
+    width:'300px',
+    display: 'flex',
+    borderWidth: '1px',
+    borderColor:'rgb(203 213 225/ var(--tw-border-opacity))'
    } : undefined
 
   return (
@@ -51,11 +58,9 @@ export const TaskCard = ({ task, canEdit }: TaskCardProps) => {
        style={style}
         className="min-w-0 flex-col gap-y-4"
       >
-        <button
-          type="button"
+        <p
           className="text-xl font-bold text-slate-600 text-left"
-          onClick={() => navigate(location.pathname + `?editTask=${task._id}`)}
-        >{task.name}</button>
+        >{task.name}</p>
         <p className="text-slate-500">{task.description}</p>
       </div>
 

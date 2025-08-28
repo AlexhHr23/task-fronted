@@ -1,6 +1,7 @@
 import type { Task } from "@/types/index"
 import { TaskCard } from "./TaskCard"
 import { statusTranslations } from "@/locales/es"
+import { DropTask } from "./DropTask"
 
 
 
@@ -50,6 +51,8 @@ export const TaskList = ({ tasks, canEdit }: taskListProps) => {
             <h3 
             className={`capitalize text-xl font-light border border-slate-300 bg-white p-3 border-t-8 ${statusStyles[status]}`}
             >{statusTranslations[status]}</h3>
+
+            <DropTask/>
 
             <ul className='mt-5 space-y-5'>
               {tasks.length === 0 ? (

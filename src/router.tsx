@@ -15,6 +15,7 @@ import { ProjectTeamView } from "@/views/projects/ProjectTeamView";
 import { ProfileView } from "./views/profile/ProfileView";
 import { ChangePasswordView } from "./views/profile/ChangePasswordView";
 import { ProfileLayout } from "./layouts/ProfileLayout";
+import { NotFoundView } from "./views/404/NotFoundView";
 
 
 export const Router = () => {
@@ -42,6 +43,10 @@ export const Router = () => {
                     <Route path='/auth/request-code' element={<RequestNewCodeView />} />
                     <Route path='/auth/forgot-password' element={<ForgotPasswordView />} />
                     <Route path='/auth/new-password' element={<NewPasswordView />} />
+                </Route>
+
+                <Route element={<AuthLayout/>}>
+                    <Route path='*' element={<NotFoundView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
